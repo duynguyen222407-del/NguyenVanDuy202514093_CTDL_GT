@@ -1,6 +1,6 @@
 # 1. Giải bài toán Tháp Hà Nội bằng thuật toán lặp (Iterative Tower of Hanoi)
 ## Giới thiệu
-Đoạn code giải quyết bài toán Tháp Hà Nội kinh điển mà không sử dụng đệ quy (recursion). Thay vào đó, chương trình mô phỏng lại cấu trúc dữ liệu Ngăn xếp (Stack) bằng mảng 1 chiều và ứng dụng các quy luật toán học để dịch chuyển đĩa.
+Đoạn code giải quyết bài toán Tháp Hà Nội mà không sử dụng đệ quy (recursion). Thay vào đó, chương trình sử dụng vòng lặp và ứng dụng các quy luật toán học để dịch chuyển đĩa.
 ## Nguyên lý hoạt động của thuật toán
 Với bài toán gồm n đĩa, ta phải thực hiện $2^n - 1$ bước di chuyển đĩa để chuyển toàn bộ n đĩa ở cột nguồn sang cột đích.
 
@@ -9,7 +9,7 @@ Do đó trong phần code, ta sẽ sử dụng vòng lặp $2^n - 1$ lần và �
 - i chia 3 dư 2: tương tác cọc nguồn (Source) và cọc trung gian (Helper) 
 - i chia 3 dư 0: tương tác giữa cọc đích (Des) và cọc trung gian (Helper) 
 
-**Lưu ý: Quy luật này áp dụng với tổng số đĩa là số lẻ, với tổng số đĩa là chẵn, ta chỉ cần đổi vai trò của cọc trung gian và cọc đích ngay từ đầu để đảm bảo toàn bộ số đĩa sẽ được hội tụ ở cọc đích.**
+**Lưu ý: Quy luật này áp dụng với tổng số đĩa là số lẻ, với tổng số đĩa là chẵn, ta chỉ cần đổi vai trò của cọc trung gian và cọc đích ngay từ đầu để đảm bảo toàn bộ số đĩa sẽ được chuyển qua cọc đích.**
 
 Khi đã biết được 2 cọc nào sẽ tương tác với nhau, ta cần xét đến vấn đề là nên chuyển đĩa từ cọc nào sang cọc nào để không vi phạm yêu cầu bài toán(đĩa to không được đặt lên trên đĩa bé). Giải quyết vấn đề này:
 1. Quản lý cọc: Mỗi cọc sử dụng một mảng để lưu trữ giá trị các đĩa đang có (nếu cọc trống, đĩa mặc định coi là 0) và một biến chỉ số (index) trỏ tới vị trí trên cùng.
@@ -20,7 +20,7 @@ Khi đã biết được 2 cọc nào sẽ tương tác với nhau, ta cần xé
 
 ## Cấu trúc code
 Các hàm chính:
-- `interact_peg`: Hàm thực hiện thao tác vật lý lấy đĩa và đặt đĩa. Hàm sử dụng con trỏ (pointer) để thao tác trực tiếp vào mảng ngăn xếp, cập nhật lại chỉ số đỉnh cọc và trạng thái của đĩa trên cùng
+- `interact_peg`: Hàm thực hiện thao tác vật lý lấy đĩa và đặt đĩa. Hàm sử dụng con trỏ (pointer) để can thiệp trực tiếp vào các biến lưu chỉ số đỉnh cọc, giá trị đĩa trên cùng. Các giá trị này sẽ được cập nhật sau mỗi lần chuyển đĩa để có dữ liệu đối chiếu cho quá trình chuyển đĩa kế tiếp
 - `solve_HNtower`: Hàm trung tâm chịu trách nhiệm khởi tạo trạng thái ban đầu, kiểm tra chẵn/lẻ để đổi cọc, và thực thi vòng lặp $2^n - 1$ bước
 - `main`: Hàm khởi chạy, định nghĩa số lượng đĩa $n$ và gán nhãn cho các cọc (Ví dụ: A, B, C)
 
@@ -29,7 +29,7 @@ Các hàm chính:
 # Giải bài toán Tháp Hà Nội bằng Đệ quy (Recursive Tower of Hanoi)
 
 ## Giới thiệu
-Dự án này triển khai mã nguồn C để giải quyết bài toán Tháp Hà Nội bằng phương pháp Đệ quy (Recursion). Trái ngược với phương pháp lặp (mô phỏng ngăn xếp và tính toán chu kỳ), phương pháp đệ quy giải quyết vấn đề bằng cách chia một bài toán lớn thành các bài toán con tương tự nhưng với quy mô nhỏ hơn.
+Chương trình giải quyết bài toán Tháp Hà Nội bằng phương pháp Đệ quy (Recursion). Trái ngược với phương pháp lặp, phương pháp đệ quy giải quyết vấn đề bằng cách chia một bài toán lớn thành các bài toán con tương tự nhưng với quy mô nhỏ hơn.
 
 ## Nguyên lý hoạt động của thuật toán
 Ý tưởng của đệ quy trong bài toán Tháp Hà Nội gồm $n$ đĩa là quy về việc di chuyển $n-1$ đĩa. Cụ thể, để chuyển toàn bộ $n$ đĩa từ cọc Nguồn (Source) sang cọc Đích (Destination) với sự trợ giúp của cọc Phụ (Helper), thuật toán thực hiện 3 bước sau:
@@ -46,9 +46,16 @@ Các hàm chính:
 *   **Hàm `solveTower`:** Đây là hàm đệ quy xử lý logic di chuyển đĩa. Nó nhận 4 tham số: số lượng đĩa hiện tại và tên của 3 cọc. Hàm chia làm 3 nhánh xử lý:
     *   **Trường hợp `num_dish == 1`:** Đây là trường hợp cơ sở nhỏ nhất. Trường hợp này chỉ cần chuyển trực tiếp đĩa từ nguồn sang đích là hoàn thành.
     *   **Trường hợp `num_dish == 2`:** 3 thao tác di chuyển lần lượt (Nguồn $\rightarrow$ Phụ, Nguồn $\rightarrow$ Đích, Phụ $\rightarrow$ Đích).
-    *   **Trường hợp `num_dish > 2` (Nhánh `else`):** Hàm thực hiện gọi đệ quy chính nó 3 lần, bám sát đúng 3 bước của nguyên lý "Chia để trị" đã nêu ở trên. Bước chuyển chiếc đĩa lớn nhất ở giữa cũng được mô phỏng bằng một lời gọi hàm đệ quy với tham số `1` đĩa.
+    *   **Trường hợp `num_dish > 2`:** Hàm thực hiện gọi đệ quy chính nó 3 lần: 
+        1. `solveTower(num_dish - 1, source_peg, des_peg, helper_peg)`: Chuyển $n - 1$ đĩa từ nguồn source sang helper với cọc trung gian là des.
 
-*   **Hàm `main`:** Hàm khởi chạy, định nghĩa số lượng đĩa n và gán nhãn cho các cọc (Ví dụ: A, B, C)
+        2. `solveTower(1, source_peg, helper_peg, des_peg)`: Chuyển $1$ đĩa còn lại từ source sang des với cọc trung gian là helper.
+
+        3. `solveTower(num_dish - 1, helper_peg, source_peg, des_peg)`: Chuyển $n - 1$ đĩa từ helper sang des với cọc trung gian là source.
+
+        $\rightarrow$ Ta đã hoàn thành bài toán.
+
+*   **Hàm `main`:** Hàm khởi chạy, định nghĩa số lượng đĩa n và gán nhãn cho các cọc (Ví dụ: A, B, C).
 
 # 3. Kiểm chứng (Test case)
 Dưới đây là các test case tiêu biểu để kiểm chứng tính đúng đắn của thuật toán. Với cả cách sử dụng vòng lặp và cách sử dụng đệ quy đều cho ra một output giống nhau khi cùng số lượng đĩa đầu vào
