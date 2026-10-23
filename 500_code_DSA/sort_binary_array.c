@@ -1,27 +1,25 @@
 #include<stdio.h>
-void sort_array(int arr[], int n){
+void sort_array(int arr[], int num_element){
     int cnt = 0;
-    for (int index = 0; index < n; index ++){
+    for (int index = 0; index < num_element; index ++){
         if (arr[index] == 0) cnt++;
     }
-    // ghi de vao mang cu
     for (int j = 0; j < cnt; j++){
         arr[j] = 0;
     }
-    for (int k = cnt; k < n; k++){
+    for (int k = cnt; k < num_element; k++){
         arr[k] = 1;
     }
 }
 int main(){
-    int n;  // n la so phan tu cua mang
-    scanf("%d", &n);
-    int arr[n];
-    // nhap cac phan tu cua mang(chi gom cac gia tri 0 va 1)
-    for (int i = 0; i < n; i++){
+    int num_element;
+    scanf("%d", &num_element);
+    int arr[num_element];
+    for (int i = 0; i < num_element; i++){
         scanf("%d", &arr[i]);
     }
-    sort_array(arr, n);
-    for (int j = 0; j < n; j++){
+    sort_array(arr, num_element);
+    for (int j = 0; j < num_element; j++){
         printf("%d ", arr[j]);
     }
     return 0;

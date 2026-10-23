@@ -49,8 +49,10 @@ int main(){
     */
     max_product = arr[0] * arr[1];
     if (max_product < arr[num_arr - 2] * arr[num_arr - 1]){
-        max_product = arr[num_arr - 2] * arr[num_arr - 1];
+        printf("Pair is: (%d, %d)", arr[num_arr - 2], arr[num_arr - 1]);
     }
-    printf("%d", max_product);
+    else if(max_product > arr[num_arr - 2] * arr[num_arr - 1]) printf("Pair is: (%d, %d)", arr[0], arr[1]);
+    else if (max_product == arr[num_arr - 2] * arr[num_arr - 1] && num_arr - 1 != 1) printf("Pair is: (%d, %d); (%d, %d)", arr[0], arr[1], arr[num_arr - 2], arr[num_arr - 1]);
+    else if (max_product == arr[num_arr - 2] * arr[num_arr - 1] && num_arr - 1 == 1) printf("Pair is: (%d, %d)", arr[num_arr - 2], arr[num_arr - 1]);
     return 0;
 }
